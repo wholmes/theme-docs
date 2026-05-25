@@ -4,6 +4,27 @@
 (function () {
     'use strict';
 
+    /** Site root path (e.g. / or /theme-docs/) for GitHub Pages project sites. */
+    var SITE_ROOT = (function () {
+        var scripts = document.getElementsByTagName('script');
+        var i;
+        for (i = scripts.length - 1; i >= 0; i--) {
+            var src = scripts[i].getAttribute('src');
+            if (src && /docs-app\.js/.test(src)) {
+                return new URL(src, window.location.href).pathname.replace(/assets\/js\/docs-app\.js.*$/, '');
+            }
+        }
+        var path = window.location.pathname;
+        if (/\.html$/i.test(path)) {
+            return path.replace(/[^/]+$/, '');
+        }
+        return path.endsWith('/') ? path : path + '/';
+    })();
+
+    function resolveUrl(relative) {
+        return SITE_ROOT + String(relative).replace(/^\//, '');
+    }
+
     function slugify(text) {
         return text
             .toLowerCase()
@@ -18,15 +39,19 @@
     }
 
     function themeBase(themeId) {
-        return 'themes/' + themeId + '/';
+        return resolveUrl('themes/' + themeId + '/');
     }
 
     function docUrl(themeId, docId) {
-        return 'doc.html?theme=' + encodeURIComponent(themeId) + '&doc=' + encodeURIComponent(docId);
+        return resolveUrl('doc.html?theme=' + encodeURIComponent(themeId) + '&doc=' + encodeURIComponent(docId));
     }
 
     function hubUrl(themeId) {
-        return 'hub.html?theme=' + encodeURIComponent(themeId);
+        return resolveUrl('hub.html?theme=' + encodeURIComponent(themeId));
+    }
+
+    function indexUrl() {
+        return resolveUrl('index.html');
     }
 
     function fetchJson(url) {
@@ -39,7 +64,7 @@
     }
 
     function loadRegistry() {
-        return fetchJson('themes.json');
+        return fetchJson(resolveUrl('themes.json'));
     }
 
     function loadManifest(themeId) {
@@ -349,7 +374,7 @@
     function initHub() {
         var themeId = getParam('theme');
         if (!themeId) {
-            window.location.replace('index.html');
+            window.location.replace(indexUrl());
             return;
         }
 
@@ -358,7 +383,7 @@
                 renderHub(results[0], results[1]);
             })
             .catch(function () {
-                window.location.replace('index.html');
+                window.location.replace(indexUrl());
             });
     }
 
@@ -367,7 +392,7 @@
         var docId = getParam('doc');
 
         if (!themeId) {
-            window.location.replace('index.html');
+            window.location.replace(indexUrl());
             return;
         }
 

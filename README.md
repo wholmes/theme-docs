@@ -64,7 +64,7 @@ Upload the entire `theme-docs/` directory to your host. Set the site root to thi
 
 | Host | Notes |
 |------|--------|
-| **GitHub Pages** | Push to a dedicated repo; Settings → Pages → deploy from `main` / root |
+| **GitHub Pages** | Push to `main`; Settings → Pages → deploy from `main` / **root** (not `/docs`). Live at `https://wholmes.github.io/theme-docs/` |
 | **Netlify** | Drag-and-drop or connect repo; publish directory = `theme-docs` |
 | **Cloudflare Pages** | Build command: none; output directory: `theme-docs` |
 
