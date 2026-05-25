@@ -4,45 +4,99 @@
   "version": "1.3.25",
   "description": "Guides for gallery staff, agencies, and developers using the Foundry Gallery WordPress theme. Install, configure homepage sections, build Content Pages with blocks, deploy, and extend with hooks.",
   "requirements": "WordPress 6.4+, PHP 8.0+, ACF Free",
+  "audiences": {
+    "consumer": {
+      "description": "Guides for gallery staff and site administrators — manage content, homepage sections, Foundry Settings, and day-to-day workflows.",
+      "defaultDoc": "site-guide"
+    },
+    "developer": {
+      "description": "Full documentation for agencies and developers — deployment, migration, hooks, white-label distribution, and internal product notes.",
+      "defaultDoc": "user-guide"
+    }
+  },
   "sections": [
+    {
+      "id": "using-your-site",
+      "title": "Using your site",
+      "description": "Day-to-day WordPress admin — content, homepage, Foundry Settings, and Content Page workflows.",
+      "audiences": ["consumer"],
+      "docs": ["site-guide"]
+    },
+    {
+      "id": "setup",
+      "title": "Getting started",
+      "description": "First-time install checklist and common setup fixes.",
+      "audiences": ["consumer"],
+      "docs": ["getting-started"]
+    },
+    {
+      "id": "seo",
+      "title": "SEO",
+      "description": "Configure Rank Math alongside the theme.",
+      "audiences": ["consumer"],
+      "docs": ["rank-math"]
+    },
     {
       "id": "editors",
       "title": "For editors & administrators",
-      "description": "Day-to-day WordPress admin — content, homepage, Foundry Settings, and Content Page workflows.",
+      "description": "Complete admin reference including developer appendix.",
+      "audiences": ["developer"],
       "docs": ["user-guide"]
     },
     {
-      "id": "getting-started",
+      "id": "getting-started-dev",
       "title": "Getting started",
-      "description": "Install checklist and theme overview.",
+      "description": "Install checklist, theme overview, and feature reference.",
+      "audiences": ["developer"],
       "docs": ["theme-readme"]
     },
     {
       "id": "deploy",
       "title": "Deploy & operations",
       "description": "Migration, white-label distribution, and SEO plugin configuration.",
+      "audiences": ["developer"],
       "docs": ["migration", "distribution", "rank-math"]
     },
     {
       "id": "developers",
       "title": "For developers",
       "description": "Hooks, filters, and demo content reference for extending the theme.",
+      "audiences": ["developer"],
       "docs": ["hooks", "seed-content"]
     },
     {
       "id": "product",
       "title": "Product",
       "description": "Internal positioning for sales, agencies, and marketplace listings.",
+      "audiences": ["developer"],
       "docs": ["positioning"]
     }
   ],
   "docs": [
     {
+      "id": "site-guide",
+      "file": "SITE-GUIDE.md",
+      "title": "Site Guide",
+      "label": "Primary guide",
+      "description": "Manage artists, exhibitions, homepage sections, Content Pages, forms, and troubleshooting.",
+      "audiences": ["consumer"],
+      "default": true
+    },
+    {
+      "id": "getting-started",
+      "file": "GETTING-STARTED.md",
+      "title": "Getting Started",
+      "label": "Setup",
+      "description": "Install the theme, run the first-time checklist, and fix common setup issues.",
+      "audiences": ["consumer"]
+    },
+    {
       "id": "user-guide",
       "file": "USER-GUIDE.md",
       "title": "User Guide",
-      "label": "Primary guide",
-      "description": "Complete reference: setup, artists, exhibitions, homepage section builder, Content Page block editor, forms, and troubleshooting.",
+      "label": "Full reference",
+      "description": "Complete reference including developer appendix, file map, and distribution notes.",
+      "audiences": ["developer"],
       "default": true
     },
     {
@@ -50,55 +104,65 @@
       "file": "THEME-README.md",
       "title": "Theme README",
       "label": "Deploy",
-      "description": "Upload to wp-content/themes, ACF sync, Namecheap cPanel steps, and feature summary."
+      "description": "Upload to wp-content/themes, ACF sync, Namecheap cPanel steps, and feature summary.",
+      "audiences": ["developer"]
     },
     {
       "id": "migration",
       "file": "MIGRATION.md",
       "title": "Migration",
       "label": "Ops",
-      "description": "Export and import scripts for staging → production database and media."
+      "description": "Export and import scripts for staging → production database and media.",
+      "audiences": ["developer"]
     },
     {
       "id": "distribution",
       "file": "DISTRIBUTION.md",
       "title": "Distribution",
       "label": "White-label",
-      "description": "Theme product branding vs site brand, style.css header, and shipping a zip."
+      "description": "Theme product branding vs site brand, style.css header, and shipping a zip.",
+      "audiences": ["developer"]
     },
     {
       "id": "rank-math",
       "file": "RANK-MATH.md",
       "title": "Rank Math",
       "label": "SEO",
-      "description": "How the theme defers to Rank Math and recommended CPT sitemap settings."
+      "description": "How the theme defers to Rank Math and recommended CPT sitemap settings.",
+      "audiences": ["consumer", "developer"]
     },
     {
       "id": "hooks",
       "file": "HOOKS.md",
       "title": "Theme Hooks",
       "label": "Reference",
-      "description": "Action hooks, homepage section filters, and example code for child themes."
+      "description": "Action hooks, homepage section filters, and example code for child themes.",
+      "audiences": ["developer"]
     },
     {
       "id": "seed-content",
       "file": "SEED-CONTENT.md",
       "title": "Seed Content",
       "label": "Reference",
-      "description": "Fictional demo catalog — artists, exhibitions, artworks, and homepage defaults."
+      "description": "Fictional demo catalog — artists, exhibitions, artworks, and homepage defaults.",
+      "audiences": ["developer"]
     },
     {
       "id": "positioning",
       "file": "POSITIONING.md",
       "title": "Positioning",
       "label": "Internal",
-      "description": "Target customers, value proposition, competitive landscape, and proof points."
+      "description": "Target customers, value proposition, competitive landscape, and proof points.",
+      "audiences": ["developer"]
     }
   ],
   "linkMap": {
+    "SITE-GUIDE.md": "site-guide",
+    "GETTING-STARTED.md": "getting-started",
     "USER-GUIDE.md": "user-guide",
     "docs/USER-GUIDE.md": "user-guide",
     "../docs/USER-GUIDE.md": "user-guide",
+    "docs/SITE-GUIDE.md": "site-guide",
     "MIGRATION.md": "migration",
     "docs/MIGRATION.md": "migration",
     "HOOKS.md": "hooks",

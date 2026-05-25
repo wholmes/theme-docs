@@ -78,6 +78,9 @@ Foundry Gallery source files live in the sibling repo at `../docs/` and `../foun
 
 | Page | Example |
 |------|---------|
-| Catalog | `/index.html` |
+| Catalog (gallery staff) | `/index.html` |
+| Developer catalog | `/index.html?audience=developer` |
 | Theme hub | `/hub.html?theme=foundry-gallery` |
-| Guide | `/doc.html?theme=foundry-gallery&doc=user-guide` |
+| Guide | `/doc.html?theme=foundry-gallery&doc=site-guide` |
+
+Consumer-facing guides (Site Guide, Getting Started) are the default. Internal docs (hooks, migration, positioning) appear under **Developer documentation** in the site footer.

@@ -58,20 +58,94 @@
         return new URLSearchParams(window.location.search).get(name);
     }
 
+    function getAudience() {
+        return getParam('audience') === 'developer' ? 'developer' : 'consumer';
+    }
+
+    function audienceQuery() {
+        return getAudience() === 'developer' ? '&audience=developer' : '';
+    }
+
+    function docHasAudience(doc, audience) {
+        return !!(doc && doc.audiences && doc.audiences.indexOf(audience) > -1);
+    }
+
+    function filterManifest(manifest, audience) {
+        var docIds = Object.create(null);
+        var docs = [];
+        var i;
+
+        for (i = 0; i < manifest.docs.length; i++) {
+            if (docHasAudience(manifest.docs[i], audience)) {
+                docIds[manifest.docs[i].id] = true;
+                docs.push(manifest.docs[i]);
+            }
+        }
+
+        var sections = [];
+        for (i = 0; i < manifest.sections.length; i++) {
+            var section = manifest.sections[i];
+            if (section.audiences && section.audiences.indexOf(audience) === -1) {
+                continue;
+            }
+            var sectionDocs = section.docs.filter(function (docId) {
+                return docIds[docId];
+            });
+            if (!sectionDocs.length) {
+                continue;
+            }
+            sections.push({
+                id: section.id,
+                title: section.title,
+                description: section.description,
+                docs: sectionDocs
+            });
+        }
+
+        var audienceMeta = manifest.audiences && manifest.audiences[audience];
+
+        return {
+            id: manifest.id,
+            name: manifest.name,
+            version: manifest.version,
+            description: audienceMeta ? audienceMeta.description : manifest.description,
+            requirements: manifest.requirements,
+            sections: sections,
+            docs: docs,
+            linkMap: manifest.linkMap,
+            defaultDoc: audienceMeta ? audienceMeta.defaultDoc : null
+        };
+    }
+
     function themeBase(themeId) {
         return resolveUrl('themes/' + themeId + '/');
     }
 
     function docUrl(themeId, docId) {
-        return resolveUrl('doc.html?theme=' + encodeURIComponent(themeId) + '&doc=' + encodeURIComponent(docId));
+        return resolveUrl(
+            'doc.html?theme=' + encodeURIComponent(themeId) +
+            '&doc=' + encodeURIComponent(docId) +
+            audienceQuery()
+        );
     }
 
     function hubUrl(themeId) {
-        return resolveUrl('hub.html?theme=' + encodeURIComponent(themeId));
+        return resolveUrl('hub.html?theme=' + encodeURIComponent(themeId) + audienceQuery());
     }
 
     function indexUrl() {
-        return resolveUrl('index.html');
+        var query = audienceQuery();
+        return resolveUrl('index.html' + (query ? '?' + query.slice(1) : ''));
+    }
+
+    function otherAudienceUrl(kind, themeId) {
+        var nextAudience = getAudience() === 'developer' ? 'consumer' : 'developer';
+        if (kind === 'index') {
+            return resolveUrl('index.html?audience=' + nextAudience);
+        }
+        return resolveUrl(
+            'hub.html?theme=' + encodeURIComponent(themeId) + '&audience=' + nextAudience
+        );
     }
 
     function fetchJson(url) {
@@ -116,6 +190,9 @@
     }
 
     function defaultDocId(manifest) {
+        if (manifest.defaultDoc && findDoc(manifest, manifest.defaultDoc)) {
+            return manifest.defaultDoc;
+        }
         if (!manifest || !manifest.docs) {
             return null;
         }
@@ -125,6 +202,35 @@
             }
         }
         return manifest.docs[0] ? manifest.docs[0].id : null;
+    }
+
+    function renderAudienceSwitcher(themeId) {
+        var footer = document.querySelector('.site-footer');
+        if (!footer) {
+            return;
+        }
+
+        var existing = document.getElementById('audience-switcher');
+        if (existing) {
+            existing.remove();
+        }
+
+        var audience = getAudience();
+        var p = document.createElement('p');
+        p.id = 'audience-switcher';
+        p.className = 'audience-switcher';
+
+        if (audience === 'developer') {
+            p.innerHTML = themeId
+                ? '<a href="' + otherAudienceUrl('hub', themeId) + '">← Gallery staff guides</a>'
+                : '<a href="' + otherAudienceUrl('index') + '">← Gallery staff guides</a>';
+        } else if (themeId) {
+            p.innerHTML = '<a href="' + otherAudienceUrl('hub', themeId) + '">Developer documentation →</a>';
+        } else {
+            p.innerHTML = '<a href="' + otherAudienceUrl('index') + '">Developer documentation →</a>';
+        }
+
+        footer.appendChild(p);
     }
 
     function setText(id, text) {
@@ -155,16 +261,18 @@
 
         var html = '';
         registry.themes.forEach(function (theme) {
+            var description = theme.description;
             html += '<li class="theme-card">';
             html += '<a class="theme-card-link" href="' + hubUrl(theme.id) + '">';
             html += '<span class="theme-card-label">WordPress theme</span>';
             html += '<h2 class="theme-card-title">' + theme.name + '</h2>';
-            html += '<p class="theme-card-desc">' + theme.description + '</p>';
+            html += '<p class="theme-card-desc">' + description + '</p>';
             html += '<p class="theme-card-meta">v' + theme.version + ' · ' + theme.requirements + '</p>';
-            html += '<span class="theme-card-arrow" aria-hidden="true">View documentation →</span>';
+            html += '<span class="theme-card-arrow" aria-hidden="true">View guides →</span>';
             html += '</a></li>';
         });
         grid.innerHTML = html;
+        renderAudienceSwitcher(null);
     }
 
     function renderHub(manifest, themeMeta) {
@@ -216,6 +324,7 @@
         });
 
         main.innerHTML = html;
+        renderAudienceSwitcher(manifest.id);
     }
 
     function buildSidebar(manifest, themeId, activeId) {
@@ -330,9 +439,8 @@
 
         Promise.all([loadManifest(themeId), loadRegistry()])
             .then(function (results) {
-                var manifest = results[0];
+                var manifest = filterManifest(results[0], getAudience());
                 var registry = results[1];
-                var themeMeta = findTheme(registry, themeId);
                 var doc = findDoc(manifest, docId) || findDoc(manifest, defaultDocId(manifest));
 
                 if (!doc) {
@@ -384,6 +492,7 @@
                     assignHeadingIds(content);
                     buildToc(content);
                     scrollToHash();
+                    renderAudienceSwitcher(themeId);
                 });
             })
             .catch(function (err) {
@@ -395,8 +504,25 @@
     }
 
     function initIndex() {
+        if (getAudience() === 'developer') {
+            var lead = document.querySelector('.catalog-lead');
+            if (lead) {
+                lead.textContent =
+                    'Technical documentation for agencies and developers — deployment, hooks, migration, and product notes.';
+            }
+        }
+
         loadRegistry()
-            .then(renderThemeCatalog)
+            .then(function (registry) {
+                if (getAudience() === 'developer' && registry.themes) {
+                    registry.themes.forEach(function (theme) {
+                        if (theme.descriptionDeveloper) {
+                            theme.description = theme.descriptionDeveloper;
+                        }
+                    });
+                }
+                renderThemeCatalog(registry);
+            })
             .catch(function (err) {
                 setText('catalog-status', err.message || 'Failed to load themes.');
             });
@@ -411,7 +537,7 @@
 
         Promise.all([loadManifest(themeId), loadRegistry()])
             .then(function (results) {
-                renderHub(results[0], results[1]);
+                renderHub(filterManifest(results[0], getAudience()), results[1]);
             })
             .catch(function () {
                 window.location.replace(indexUrl());

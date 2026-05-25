@@ -152,6 +152,22 @@ a {
     color: var(--text-tertiary);
 }
 
+.site-footer p + p,
+.audience-switcher {
+    margin-top: 0.75rem;
+}
+
+.audience-switcher a {
+    color: var(--accent-primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.audience-switcher a:hover,
+.audience-switcher a:focus-visible {
+    text-decoration: underline;
+}
+
 .page-title {
     font-family: 'Fraunces', Georgia, serif;
     font-size: clamp(2.25rem, 5vw, 3.25rem);
