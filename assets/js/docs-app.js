@@ -25,13 +25,33 @@
         return SITE_ROOT + String(relative).replace(/^\//, '');
     }
 
-    function slugify(text) {
-        return text
+    function gfmSlug(text) {
+        return String(text)
             .toLowerCase()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/\s+/g, '-')
+            .trim()
+            .replace(/[\s]+/g, '-')
+            .replace(/[^\w-]+/g, '')
             .replace(/-+/g, '-')
-            .trim();
+            .replace(/^-+|-+$/g, '');
+    }
+
+    function assignHeadingIds(container) {
+        var seen = Object.create(null);
+        var headings = container.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        headings.forEach(function (heading) {
+            var base = gfmSlug(heading.textContent || 'heading');
+            if (!base) {
+                return;
+            }
+            var id = base;
+            if (seen[base] !== undefined) {
+                seen[base] += 1;
+                id = base + '-' + seen[base];
+            } else {
+                seen[base] = 0;
+            }
+            heading.id = id;
+        });
     }
 
     function getParam(name) {
@@ -245,9 +265,9 @@
 
         tocWrap.hidden = false;
         var items = '';
-        headings.forEach(function (heading, index) {
+        headings.forEach(function (heading) {
             if (!heading.id) {
-                heading.id = 'section-' + index + '-' + slugify(heading.textContent || 'heading');
+                return;
             }
             var cls = heading.tagName === 'H3' ? ' class="toc-h3"' : '';
             items += '<li' + cls + '><a href="#' + heading.id + '">' + heading.textContent + '</a></li>';
@@ -285,11 +305,20 @@
         marked.setOptions({
             gfm: true,
             breaks: false,
-            headerIds: true,
-            mangle: false,
         });
 
         return rewriteMarkdownLinks(marked.parse(md), themeId, linkMap);
+    }
+
+    function scrollToHash() {
+        var hash = window.location.hash;
+        if (!hash || hash.length < 2) {
+            return;
+        }
+        var target = document.getElementById(decodeURIComponent(hash.slice(1)));
+        if (target) {
+            target.scrollIntoView();
+        }
     }
 
     function loadDocPage(themeId, docId) {
@@ -352,7 +381,9 @@
                     }
                     content.hidden = false;
                     content.innerHTML = renderMarkdown(md, themeId, manifest.linkMap || {});
+                    assignHeadingIds(content);
                     buildToc(content);
+                    scrollToHash();
                 });
             })
             .catch(function (err) {
