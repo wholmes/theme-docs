@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <meta name="description" content="WordPress theme documentation hub.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/docs.css">
+    <script src="assets/js/site.js"></script>
+</head>
+<body>
+    <a class="screen-reader-text" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="site-logo">Theme Docs</a>
+            <nav class="main-nav" aria-label="Primary">
+                <a href="index.html">All themes</a>
+                <a href="#" id="nav-current-theme" hidden aria-current="page"></a>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Themes</a>
+        <span class="breadcrumb-separator" aria-hidden="true">/</span>
+        <span aria-current="page" id="breadcrumb-theme">Documentation</span>
+    </nav>
+
+    <main id="main-content" class="docs-hub">
+        <header class="docs-hub-hero">
+            <h1 class="page-title" id="hub-title">Documentation</h1>
+            <p class="docs-hub-lead" id="hub-lead">Loading…</p>
+            <p class="docs-meta" id="hub-meta"></p>
+        </header>
+        <div id="hub-sections"></div>
+    </main>
+
+    <footer class="site-footer">
+        <p><a href="index.html">← All themes</a></p>
+    </footer>
+
+    <script src="assets/js/docs-app.js"></script>
+</body>
+</html>

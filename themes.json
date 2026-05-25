@@ -1,0 +1,13 @@
+{
+  "siteName": "Theme Documentation",
+  "themes": [
+    {
+      "id": "foundry-gallery",
+      "name": "Foundry Gallery",
+      "version": "1.3.25",
+      "tagline": "Contemporary art gallery WordPress theme",
+      "description": "Classic PHP theme for artists, exhibitions, viewing room, journal, and contact flows. Built for self-hosted WordPress with ACF Free.",
+      "requirements": "WordPress 6.4+, PHP 8.0+, ACF Free"
+    }
+  ]
+}

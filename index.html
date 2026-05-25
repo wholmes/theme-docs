@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Documentation</title>
+    <meta name="description" content="WordPress theme documentation — editor guides, deployment, hooks, and migration.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/docs.css">
+    <script src="assets/js/site.js"></script>
+</head>
+<body>
+    <a class="screen-reader-text" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="site-logo">Theme Docs</a>
+            <nav class="main-nav" aria-label="Primary">
+                <a href="index.html" aria-current="page">All themes</a>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content" class="catalog">
+        <header class="catalog-hero">
+            <h1 class="page-title">Theme Documentation</h1>
+            <p class="catalog-lead">
+                Guides for gallery staff, agencies, and developers. Each theme has its own hub with editor guides,
+                deployment notes, hooks reference, and product docs.
+            </p>
+        </header>
+
+        <p class="docs-status" id="catalog-status" role="status" aria-live="polite">Loading themes…</p>
+        <ul class="theme-grid" id="theme-grid" hidden></ul>
+    </main>
+
+    <footer class="site-footer">
+        <p>Static documentation site — deploy anywhere (GitHub Pages, Netlify, Cloudflare Pages).</p>
+    </footer>
+
+    <script src="assets/js/docs-app.js"></script>
+</body>
+</html>

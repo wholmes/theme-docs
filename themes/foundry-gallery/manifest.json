@@ -1,0 +1,118 @@
+{
+  "id": "foundry-gallery",
+  "name": "Foundry Gallery",
+  "version": "1.3.25",
+  "description": "Guides for gallery staff, agencies, and developers using the Foundry Gallery WordPress theme. Install, configure homepage sections, build Content Pages with blocks, deploy, and extend with hooks.",
+  "requirements": "WordPress 6.4+, PHP 8.0+, ACF Free",
+  "sections": [
+    {
+      "id": "editors",
+      "title": "For editors & administrators",
+      "description": "Day-to-day WordPress admin — content, homepage, Foundry Settings, and Content Page workflows.",
+      "docs": ["user-guide"]
+    },
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "description": "Install checklist and theme overview.",
+      "docs": ["theme-readme"]
+    },
+    {
+      "id": "deploy",
+      "title": "Deploy & operations",
+      "description": "Migration, white-label distribution, and SEO plugin configuration.",
+      "docs": ["migration", "distribution", "rank-math"]
+    },
+    {
+      "id": "developers",
+      "title": "For developers",
+      "description": "Hooks, filters, and demo content reference for extending the theme.",
+      "docs": ["hooks", "seed-content"]
+    },
+    {
+      "id": "product",
+      "title": "Product",
+      "description": "Internal positioning for sales, agencies, and marketplace listings.",
+      "docs": ["positioning"]
+    }
+  ],
+  "docs": [
+    {
+      "id": "user-guide",
+      "file": "USER-GUIDE.md",
+      "title": "User Guide",
+      "label": "Primary guide",
+      "description": "Complete reference: setup, artists, exhibitions, homepage section builder, Content Page block editor, forms, and troubleshooting.",
+      "default": true
+    },
+    {
+      "id": "theme-readme",
+      "file": "THEME-README.md",
+      "title": "Theme README",
+      "label": "Deploy",
+      "description": "Upload to wp-content/themes, ACF sync, Namecheap cPanel steps, and feature summary."
+    },
+    {
+      "id": "migration",
+      "file": "MIGRATION.md",
+      "title": "Migration",
+      "label": "Ops",
+      "description": "Export and import scripts for staging → production database and media."
+    },
+    {
+      "id": "distribution",
+      "file": "DISTRIBUTION.md",
+      "title": "Distribution",
+      "label": "White-label",
+      "description": "Theme product branding vs site brand, style.css header, and shipping a zip."
+    },
+    {
+      "id": "rank-math",
+      "file": "RANK-MATH.md",
+      "title": "Rank Math",
+      "label": "SEO",
+      "description": "How the theme defers to Rank Math and recommended CPT sitemap settings."
+    },
+    {
+      "id": "hooks",
+      "file": "HOOKS.md",
+      "title": "Theme Hooks",
+      "label": "Reference",
+      "description": "Action hooks, homepage section filters, and example code for child themes."
+    },
+    {
+      "id": "seed-content",
+      "file": "SEED-CONTENT.md",
+      "title": "Seed Content",
+      "label": "Reference",
+      "description": "Fictional demo catalog — artists, exhibitions, artworks, and homepage defaults."
+    },
+    {
+      "id": "positioning",
+      "file": "POSITIONING.md",
+      "title": "Positioning",
+      "label": "Internal",
+      "description": "Target customers, value proposition, competitive landscape, and proof points."
+    }
+  ],
+  "linkMap": {
+    "USER-GUIDE.md": "user-guide",
+    "docs/USER-GUIDE.md": "user-guide",
+    "../docs/USER-GUIDE.md": "user-guide",
+    "MIGRATION.md": "migration",
+    "docs/MIGRATION.md": "migration",
+    "HOOKS.md": "hooks",
+    "docs/HOOKS.md": "hooks",
+    "RANK-MATH.md": "rank-math",
+    "docs/RANK-MATH.md": "rank-math",
+    "DISTRIBUTION.md": "distribution",
+    "docs/DISTRIBUTION.md": "distribution",
+    "SEED-CONTENT.md": "seed-content",
+    "docs/SEED-CONTENT.md": "seed-content",
+    "POSITIONING.md": "positioning",
+    "docs/POSITIONING.md": "positioning",
+    "THEME-README.md": "theme-readme",
+    "foundry-gallery/README.md": "theme-readme",
+    "../foundry-gallery/README.md": "theme-readme"
+  }
+}
