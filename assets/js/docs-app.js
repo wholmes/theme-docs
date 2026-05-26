@@ -54,8 +54,21 @@
         });
     }
 
-    function getParam(name) {
-        return new URLSearchParams(window.location.search).get(name);
+    function inPageHashUrl(id) {
+        return window.location.pathname + window.location.search + '#' + id;
+    }
+
+    function fixInPageHashLinks(container) {
+        if (!container) {
+            return;
+        }
+        var links = container.querySelectorAll('a[href^="#"]');
+        links.forEach(function (link) {
+            var href = link.getAttribute('href');
+            if (href && href.length > 1) {
+                link.setAttribute('href', inPageHashUrl(href.slice(1)));
+            }
+        });
     }
 
     function getAudience() {
@@ -379,9 +392,10 @@
                 return;
             }
             var cls = heading.tagName === 'H3' ? ' class="toc-h3"' : '';
-            items += '<li' + cls + '><a href="#' + heading.id + '">' + heading.textContent + '</a></li>';
+            items += '<li' + cls + '><a href="' + inPageHashUrl(heading.id) + '">' + heading.textContent + '</a></li>';
         });
         toc.innerHTML = items;
+        fixInPageHashLinks(tocWrap);
     }
 
     function rewriteMarkdownLinks(html, themeId, linkMap) {
@@ -390,7 +404,13 @@
         var links = div.querySelectorAll('a[href]');
         links.forEach(function (link) {
             var href = link.getAttribute('href');
-            if (!href || href.indexOf('http') === 0 || href.indexOf('#') === 0 || href.indexOf('mailto:') === 0) {
+            if (!href || href.indexOf('http') === 0 || href.indexOf('mailto:') === 0) {
+                return;
+            }
+            if (href.indexOf('#') === 0) {
+                if (href.length > 1) {
+                    link.setAttribute('href', inPageHashUrl(href.slice(1)));
+                }
                 return;
             }
             var clean = href.split('#')[0];
@@ -490,6 +510,7 @@
                     content.hidden = false;
                     content.innerHTML = renderMarkdown(md, themeId, manifest.linkMap || {});
                     assignHeadingIds(content);
+                    fixInPageHashLinks(content);
                     buildToc(content);
                     scrollToHash();
                     renderAudienceSwitcher(themeId);
