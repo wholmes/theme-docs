@@ -71,6 +71,10 @@
         });
     }
 
+    function getParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+    }
+
     function getAudience() {
         return getParam('audience') === 'developer' ? 'developer' : 'consumer';
     }
